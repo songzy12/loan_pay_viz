@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Loan Visualizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="backdrop"></div>
+  <main class="container">
+    <header class="hero">
+      <h1>Home Loan Payment Visualizer</h1>
+      <p>
+        Upload a text or CSV file where each line has:
+        <span class="mono">date, principalPay, interestPay</span>
+      </p>
+      <p class="hint">Example: <span class="mono">2026-05-01, 2300.50, 781.20</span></p>
+    </header>
+
+    <section class="panel uploader-panel">
+      <label for="fileInput" class="uploader" id="dropZone">
+        <input id="fileInput" type="file" accept=".txt,.csv,text/plain,text/csv" />
+        <span class="uploader-title">Drop your file here or click to choose</span>
+        <span class="uploader-subtitle">Supports comma, tab, or whitespace separated lines</span>
+      </label>
+      <p id="status" class="status">Waiting for file...</p>
+    </section>
+
+    <section class="panel stats-panel" id="statsPanel" hidden>
+      <div class="stat-card">
+        <div class="stat-title">Total Principal</div>
+        <div class="stat-value" id="totalPrincipal">-</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Total Interest</div>
+        <div class="stat-value" id="totalInterest">-</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Total Paid</div>
+        <div class="stat-value" id="totalPaid">-</div>
+      </div>
+    </section>
+
+    <section class="panel chart-panel">
+      <canvas id="loanChart" aria-label="Loan payment chart" role="img"></canvas>
+    </section>
+  </main>
+</body>
+</html>
