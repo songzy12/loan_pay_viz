@@ -187,6 +187,7 @@ function renderChart(rows) {
         },
         y: {
           stacked: true,
+          beginAtZero: true,
           ticks: {
             callback(value) {
               return currencyFormatter.format(value);
