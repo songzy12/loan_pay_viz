@@ -264,3 +264,21 @@ dropZone.addEventListener("drop", (event) => {
   const file = event.dataTransfer && event.dataTransfer.files[0];
   handleFile(file);
 });
+
+// Load default file on startup
+window.addEventListener("DOMContentLoaded", () => {
+  fetch("input/pay.txt")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to fetch input/pay.txt (status: ${response.status})`);
+      }
+      return response.text();
+    })
+    .then((content) => {
+      processText(content);
+    })
+    .catch((error) => {
+      console.warn("Could not load default file:", error);
+      updateStatus("Please drop a payment file or select one to visualize.", false);
+    });
+});
