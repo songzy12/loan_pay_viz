@@ -48,7 +48,14 @@
     </section>
 
     <section class="panel chart-panel">
-      <canvas id="loanChart" aria-label="Loan payment chart" role="img"></canvas>
+      <div class="chart-header">
+        <button id="exportBtn" class="export-btn" hidden title="Export graph as JPG">
+          Export JPG
+        </button>
+      </div>
+      <div class="chart-wrapper">
+        <canvas id="loanChart" aria-label="Loan payment chart" role="img"></canvas>
+      </div>
     </section>
   </main>
 </body>

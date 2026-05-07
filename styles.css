@@ -148,9 +148,32 @@ body {
   animation: rise-in 900ms ease-out;
 }
 
-.chart-panel canvas {
+.chart-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+.export-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 180ms ease;
+}
+
+.export-btn:hover {
+  opacity: 0.85;
+}
+
+.chart-wrapper {
+  position: relative;
   width: 100%;
-  min-height: 420px;
+  height: 420px;
 }
 
 @media (max-width: 800px) {
@@ -158,8 +181,8 @@ body {
     grid-template-columns: 1fr;
   }
 
-  .chart-panel canvas {
-    min-height: 360px;
+  .chart-wrapper {
+    height: 360px;
   }
 }
 

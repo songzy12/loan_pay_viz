@@ -6,6 +6,7 @@ const totalPrincipalEl = document.getElementById("totalPrincipal");
 const totalInterestEl = document.getElementById("totalInterest");
 const totalPaidEl = document.getElementById("totalPaid");
 const chartCanvas = document.getElementById("loanChart");
+const exportBtn = document.getElementById("exportBtn");
 
 let chart = null;
 
@@ -208,6 +209,9 @@ function renderChart(rows) {
   totalInterestEl.textContent = currencyFormatter.format(totalInterest);
   totalPaidEl.textContent = currencyFormatter.format(totalPrincipal + totalInterest);
   statsPanel.hidden = false;
+  if (exportBtn) {
+    exportBtn.hidden = false;
+  }
 }
 
 function processText(content) {
@@ -216,6 +220,9 @@ function processText(content) {
   if (!rows.length) {
     updateStatus("No valid payment rows found. Please check file format.", true);
     statsPanel.hidden = true;
+    if (exportBtn) {
+      exportBtn.hidden = true;
+    }
     if (chart) {
       chart.destroy();
       chart = null;
@@ -264,6 +271,46 @@ dropZone.addEventListener("drop", (event) => {
   const file = event.dataTransfer && event.dataTransfer.files[0];
   handleFile(file);
 });
+
+// Added export button functionality
+if (exportBtn) {
+  exportBtn.addEventListener("click", () => {
+    if (!chartCanvas) return;
+
+    // Scale font size based on the actual canvas pixel width (handles HiDPI/Retina displays)
+    const fontSize = Math.max(16, Math.floor(chartCanvas.width * 0.018));
+    const headerHeight = fontSize * 3.5;
+
+    // Create a temporary canvas with white background (JPGs don't support transparency)
+    const tempCanvas = document.createElement("canvas");
+    tempCanvas.width = chartCanvas.width;
+    tempCanvas.height = chartCanvas.height + headerHeight;
+    const ctx = tempCanvas.getContext("2d");
+
+    // Fill white background
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+    // Draw statistics text
+    ctx.fillStyle = "#1f2b2f";
+    ctx.font = `bold ${fontSize}px 'Space Grotesk', sans-serif`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    
+    // Use the stats from the DOM
+    const statsText = `Total Principal: ${totalPrincipalEl.textContent}   |   Total Interest: ${totalInterestEl.textContent}   |   Total Paid: ${totalPaidEl.textContent}`;
+    ctx.fillText(statsText, tempCanvas.width / 2, headerHeight / 2);
+
+    // Draw original chart below the header
+    ctx.drawImage(chartCanvas, 0, headerHeight);
+
+    const dataUrl = tempCanvas.toDataURL("image/jpeg", 0.92);
+    const link = document.createElement("a");
+    link.href = dataUrl;
+    link.download = `home_loan_graph_${new Date().toISOString().slice(0, 7)}.jpg`;
+    link.click();
+  });
+}
 
 // Load default file on startup
 window.addEventListener("DOMContentLoaded", () => {
