@@ -314,10 +314,10 @@ if (exportBtn) {
 
 // Load default file on startup
 window.addEventListener("DOMContentLoaded", () => {
-  fetch("input/pay.txt")
+  fetch("input/pay.tsv")
     .then((response) => {
       if (!response.ok) {
-        throw new Error(`Failed to fetch input/pay.txt (status: ${response.status})`);
+        throw new Error(`Failed to fetch input/pay.tsv (status: ${response.status})`);
       }
       return response.text();
     })
